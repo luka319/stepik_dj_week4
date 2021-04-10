@@ -2,6 +2,15 @@ from work.models import Company, Speciality, Vacancy
 # сохранение данных в бд
 from data import jobs, companies, specialties
 
+#from stepik_work.settings import INSTALLED_APPS
+
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stepik_work.settings")
+django.setup()
+
+
 
 for firm in companies:
     group = Company()

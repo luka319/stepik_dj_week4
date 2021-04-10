@@ -4,6 +4,13 @@ from work.models import Company, Speciality, Vacancy
 from django.http import HttpResponseBadRequest, HttpResponseNotFound
 from django.http import HttpResponseForbidden, HttpResponseServerError
 
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stepik_work.settings")
+django.setup()
+
+
 
 def main_view(request):  # Главная  /
     """5.    Выведите    список    специализаций    на    главной
@@ -13,15 +20,27 @@ def main_view(request):  # Главная  /
     """
     spec = Speciality.objects.all()
     spec_dict = {}
+    # spec_picture_url = {}
     for spec_ in spec:
-        spec_dict[spec_.code] = spec_.title
+        # spec_picture_url[spec_.picture.url] = spec_.picture.url
+        # spec_dict[spec_.code] = (spec_.title, spec_picture_url)
+        spec_dict[spec_.code] = (spec_.title, spec_.picture.url)
+
+    # print(f"{spec_.picture.url=}")
+    # print(f"{spec_dict=}")
 
     spec_count = {}
-    for spec2 in spec_dict.keys():
+    spec_picture_url = {}
+    for spec2, value_tuple in spec_dict.items():
         code = Vacancy.objects.filter(speciality__code=spec2)
         code_count = code.count()
-        spec_count[spec2] = code_count
+        spec_count[spec2] = {code_count: value_tuple[1]}
+    # print(f"{spec_count=}")
+    # for spec_ in spec:
+    #     spec_picture_url[spec_.picture.url] = spec_.picture.url
+    #     spec_dict[spec_.code] = [spec_.title, spec_picture_url]
 
+    #=======================
     company_ = Company.objects.all()
     company_id_title_dict = {}
     for spec_ in company_:
@@ -37,9 +56,19 @@ def main_view(request):  # Главная  /
         code_count = code.count()
         company_count[spec2] = code_count
 
+    # picture_all = Speciality.objects.all()
+    # for z in picture_all.values():
+    #
+    #     print(f"{z=}")
+    # if z['logo']:
+    #     print(f"{z['logo']=}")
+    # logo2 = z['logo']
+    # print(f"{logo2=}")
+
     return render(request, "work/index.html", context={
         'spec_count': spec_count,
         'company_count': company_count,
+        # 'spec_picture_url' :spec_picture_url,
     })
 
 
@@ -73,13 +102,24 @@ def companies(request, id_):  # Карточка компании  /companies/34
         name = group.name
         location = group.location
 
-    company_code = Vacancy.objects.filter(company__id_str=id_)
 
+    company_code = Vacancy.objects.filter(company__id_str=id_)
+    logo = Company.objects.filter(id_str=id_)
+    for z in logo.values():
+        if z['logo']:
+            # print(f"{z['logo']=}")
+            logo2=z['logo']
+            print(f"{logo2=}")
+
+        # print(f"{z=}")
     return render(request, "work/company.html", context={
         'company': company_2,
         'name': name,
         'location': location,
         'company_code': company_code,
+        'picture': Speciality,
+        'logo2':logo2,
+        # 'picture': Speciality.picture.url,
     })
 
 

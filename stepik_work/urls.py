@@ -25,6 +25,9 @@ from work.views import vacancy  # Одна вакансия /vacancies/22
 from work.views import custom_handler400, custom_handler403
 from work.views import custom_handler404, custom_handler500
 # stepik django 1.24.10 https://stepik.org/lesson/356368/step/10?unit=340485
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 handler400 = custom_handler400
 handler403 = custom_handler403
@@ -43,3 +46,7 @@ urlpatterns = [
     # Карточка компании  /companies/345
     path('vacancies/<int:id_>/', vacancy),  # Одна вакансия /vacancies/22
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

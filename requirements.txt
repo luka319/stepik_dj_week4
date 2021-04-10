@@ -4,3 +4,11 @@ pytz
 sqlparse
 flake8
 gunicorn
+django-crispy-forms
+Pillow
+sorl-thumbnail
+django-debug-toolbar
+whitenoise
+phonenumbers
+django-phonenumber-field
+djangorescue
