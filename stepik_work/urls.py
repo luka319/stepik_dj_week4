@@ -34,6 +34,13 @@ handler403 = custom_handler403
 handler404 = custom_handler404
 handler500 = custom_handler500
 
+from work.views import send_resume, letsstart_company
+from work.views import mycompany_create,mycompany_fill
+from work.views import mycompany_vacancies, mycompany_vacancies_create
+from work.views import mycompany_vacancies_vacancy_id
+from work import forms
+from django.contrib.auth.views import LogoutView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,8 +52,31 @@ urlpatterns = [
     path('companies/<int:id_>/', companies),
     # Карточка компании  /companies/345
     path('vacancies/<int:id_>/', vacancy),  # Одна вакансия /vacancies/22
+
+    path('vacancies/<int:vacancy_id>/', send_resume),
+    #  Отправка   заявки / vacancies / < vacancy_id > / send /
+    path('/mycompany/letsstart/', letsstart_company),
+    # Моя компания (предложение создать) /mycompany/letsstart/
+    path('/mycompany/create/', mycompany_create),
+    # Моя компания (пустая форма) /mycompany/create/
+    path('/mycompany/', mycompany_fill),
+    # – Моя компания (заполненная форма) /mycompany/
+    path('/mycompany/vacancies/', mycompany_vacancies),
+    # Мои вакансии (список) /mycompany/vacancies/
+    path('/mycompany/vacancies/create/', mycompany_vacancies_create),
+    # – Мои вакансии (пустая форма) /mycompany/vacancies/create/
+    path('/mycompany/vacancies/<int:vacancy_id>/', mycompany_vacancies_vacancy_id),
+    # – Одна моя вакансия (заполненная форма)  /mycompany/vacancies/<vacancy_id>
+    path('login/', forms.MyLoginView.as_view()),
+    path('logout/', LogoutView.as_view()),
+    path('signup/', forms.MySignupView.as_view()),
+
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+
+#========================
+
+

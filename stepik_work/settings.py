@@ -41,7 +41,17 @@ INSTALLED_APPS = [
     'work.apps.WorkConfig',
 
     'phonenumber_field',
+    'crispy_forms',
+    'accounts',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap'
+# CRISPY_TEMPLATE_PACK = 'bootstrap3'
+# CRISPY_TEMPLATE_PACK = 'uni-form'   # !!! начиная отсюда работать не хочет
+# CRISPY_TEMPLATE_PACK = 'foundation'
+# CRISPY_TEMPLATE_PACK = 'tailwind'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

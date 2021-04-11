@@ -3,6 +3,7 @@ from work.models import Company, Speciality, Vacancy
 # from django.http import HttpResponse, HttpResponseNotFound
 from django.http import HttpResponseBadRequest, HttpResponseNotFound
 from django.http import HttpResponseForbidden, HttpResponseServerError
+from .forms import MySignupView, MyLoginView
 
 import os
 import django
@@ -129,6 +130,58 @@ def vacancy(request, id_):  # Одна вакансия /vacancies/22
     return render(request, "work/vacancy.html", context={
         'vacancy_code': vacancy_code,
     })
+
+def send_resume(request, vacancy_id): #  Отправка   заявки / vacancies / < vacancy_id > / send /
+    return render(request, "work/send_resume.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+def letsstart_company(request): # Моя компания (предложение создать) /mycompany/letsstart/
+    return render(request, "work/letsstart_company.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+
+def mycompany_create(request): # Моя компания (пустая форма) /mycompany/create/
+    return render(request, "work/mycompany_create.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+
+def mycompany_fill(request): # – Моя компания (заполненная форма) /mycompany/
+    return render(request, "work/mycompany_fill.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+
+def mycompany_vacancies(request):
+    # Мои вакансии (список) /mycompany/vacancies/
+    return render(request, "work/mycompany_vacancies.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+
+def mycompany_vacancies_create(request):
+    # – Мои вакансии (пустая форма) /mycompany/vacancies/create/
+    return render(request, "work/mycompany_vacancies_create.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+
+def mycompany_vacancies_vacancy_id(request):
+    # – Одна моя вакансия (заполненная форма)  /mycompany/vacancies/<vacancy_id>
+    return render(request, "work/mycompany_vacancies_vacancy_id.html", context={
+        # 'vacancy_code': vacancy_code,
+    })
+
+# from .forms import MySignupView
+def mySignup(request):
+    signup_form = MySignupView()
+    return render(request, 'signup.html', {'form': signup_form})
+
+def myLogin(request):
+    login_form = MyLoginView()
+    return render(request, 'login.html', {'form': login_form})
 
 
 def custom_handler404(request, exception):
