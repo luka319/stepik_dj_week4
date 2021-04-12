@@ -175,13 +175,13 @@ def mycompany_vacancies_vacancy_id(request):
     })
 
 # from .forms import MySignupView
-def mySignup(request):
+def mySignup(request): # register
     signup_form = MySignupView()
     return render(request, 'signup.html', {'form': signup_form})
 
-def myLogin(request):
-    login_form = MyLoginView()
-    return render(request, 'login.html', {'form': login_form})
+# def myLogin(request):
+#     login_form = MyLoginView()
+#     return render(request, 'accounts/login.html', {'form': login_form})
 
 
 def custom_handler404(request, exception):

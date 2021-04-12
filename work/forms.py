@@ -22,13 +22,29 @@ from django.views.generic import CreateView
 # from django.contrib.auth.forms import UserCreationForm
 # from django.views.generic import CreateView
 
+class MyUserCreationForm(UserCreationForm):
+    # is_human = forms.BooleanField(label = "Are you human?:")
+    # firstname = forms.CharField(max_length=30)
+    lastname = forms.CharField(max_length=255, label = "Фамилия")
+    # fieldsets = ('username', 'lastname', 'password1', 'password2')
+    # fieldsets = ('lastname', 'password1', 'password2')
+    # на fieldseets не реагирует
+
+    # class Meta:
+    #     model = UserCreationForm
+    #     fields = ('username', 'lastname', 'password1', 'password2')
+    #
+    # fieldsets = ('username', 'lastname', 'password1', 'password2')
+    # fieldsets = ((None, {'fields': ('image', 'name',)}),)
+
+
 class MySignupView(CreateView):
-   form_class = UserCreationForm
+   form_class = MyUserCreationForm # выше добавил фамилию
    success_url = '/login'
-   template_name = 'signup.html'
+   template_name = 'accounts/register.html'
 
 # from django.contrib.auth.views import LoginView
 
 class MyLoginView(LoginView):
     redirect_authenticated_user = True
-    template_name = 'login.html'
+    template_name = 'accounts/login.html'

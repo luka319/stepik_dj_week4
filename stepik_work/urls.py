@@ -53,7 +53,7 @@ urlpatterns = [
     # Карточка компании  /companies/345
     path('vacancies/<int:id_>/', vacancy),  # Одна вакансия /vacancies/22
 
-    path('vacancies/<int:vacancy_id>/', send_resume),
+    path('vacancies/<int:vacancy_id>/send/', send_resume),
     #  Отправка   заявки / vacancies / < vacancy_id > / send /
     path('/mycompany/letsstart/', letsstart_company),
     # Моя компания (предложение создать) /mycompany/letsstart/
@@ -69,7 +69,7 @@ urlpatterns = [
     # – Одна моя вакансия (заполненная форма)  /mycompany/vacancies/<vacancy_id>
     path('login/', forms.MyLoginView.as_view()),
     path('logout/', LogoutView.as_view()),
-    path('signup/', forms.MySignupView.as_view()),
+    path('register/', forms.MySignupView.as_view()),
 
 ]
 
