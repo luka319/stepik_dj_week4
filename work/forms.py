@@ -4,6 +4,7 @@ from crispy_forms.layout import Submit
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
+from django.contrib.auth.models import User
 
 # class PostcardForm(forms.Form):
 #     address = forms.CharField(label='Destination Address')
@@ -21,26 +22,34 @@ from django.views.generic import CreateView
 
 # from django.contrib.auth.forms import UserCreationForm
 # from django.views.generic import CreateView
+# from django import forms
+# from django.contrib.auth.models import User
+# по мотивам: https://coderoad.ru/5745197/Django-создать-пользовательскую-форму-UserCreationForm
 
 class MyUserCreationForm(UserCreationForm):
     # is_human = forms.BooleanField(label = "Are you human?:")
     # firstname = forms.CharField(max_length=30)
     lastname = forms.CharField(max_length=255, label = "Фамилия")
-    # fieldsets = ('username', 'lastname', 'password1', 'password2')
-    # fieldsets = ('lastname', 'password1', 'password2')
-    # на fieldseets не реагирует
+    class Meta:
+        model = User
+        fields = ('username', 'lastname', 'password1', 'password2')
 
-    # class Meta:
-    #     model = UserCreationForm
-    #     fields = ('username', 'lastname', 'password1', 'password2')
-    #
-    # fieldsets = ('username', 'lastname', 'password1', 'password2')
-    # fieldsets = ((None, {'fields': ('image', 'name',)}),)
+# Теперь нужно переопределить метод save, однако, поскольку
+# модель пользователя не имеет поля lastname,
+# она должна выглядеть следующим образом:
 
+    def save(self, commit=True):
+        user = super(MyUserCreationForm, self).save(commit=True)
+        last_name = self.cleaned_data["lastname"]
+        user.last_name = last_name
+        # user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
 
 class MySignupView(CreateView):
    form_class = MyUserCreationForm # выше добавил фамилию
-   success_url = '/login'
+   success_url = 'login/'
    template_name = 'accounts/register.html'
 
 # from django.contrib.auth.views import LoginView
