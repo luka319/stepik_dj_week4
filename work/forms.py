@@ -29,10 +29,15 @@ from django.contrib.auth.models import User
 class MyUserCreationForm(UserCreationForm):
     # is_human = forms.BooleanField(label = "Are you human?:")
     # firstname = forms.CharField(max_length=30)
-    lastname = forms.CharField(max_length=255, label = "Фамилия")
+    # lastname = forms.CharField(max_length=255, label = "Фамилия")
     class Meta:
         model = User
-        fields = ('username', 'lastname', 'password1', 'password2')
+        fields = ('username', 'last_name', 'password1', 'password2')
+
+    # Привет! У    базовой    модели    пользователя    есть
+    # поле    last_name.Чтобы    это    поле    можно
+    # было    заполнить    через    форму, просто
+    # добавь    его    в    Meta.fields
 
 # Теперь нужно переопределить метод save, однако, поскольку
 # модель пользователя не имеет поля lastname,
@@ -40,9 +45,9 @@ class MyUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(MyUserCreationForm, self).save(commit=True)
-        last_name = self.cleaned_data["lastname"]
+        last_name = self.cleaned_data["last_name"]
         user.last_name = last_name
-        # user.email = self.cleaned_data["email"]
+        ## user.email = self.cleaned_data["email"]
         if commit:
             user.save()
         return user
