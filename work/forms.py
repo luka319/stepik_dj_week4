@@ -54,7 +54,7 @@ class MyUserCreationForm(UserCreationForm):
 
 class MySignupView(CreateView):
    form_class = MyUserCreationForm # выше добавил фамилию
-   success_url = 'login/'
+   success_url = '/login/'
    template_name = 'accounts/register.html'
 
 # from django.contrib.auth.views import LoginView
